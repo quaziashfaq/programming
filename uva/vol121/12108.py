@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+# uva: 12108
 def gcd(a, b):
     r = b % a
     while r != 0:
