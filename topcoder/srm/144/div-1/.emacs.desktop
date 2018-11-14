@@ -1,0 +1,85 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Fri Sep 28 00:40:33 2018
+;; Desktop file format version 208
+;; Emacs version 25.2.2
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (23469 2049 411038 892000) (desktop . "208") "ashfaq@sparrow" nil nil ((((font-backend xft x) (font . "-DAMA-Ubuntu Mono-normal-normal-normal-*-17-*-*-*-m-0-iso10646-1") (font-parameter . "Ubuntu Mono 13") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars) (horizontal-scroll-bars) (foreground-color . "#839496") (background-color . "#002b36") (mouse-color . "black") (border-color . "#073642") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 0) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 0) (scroll-bar-height . 0) (alpha) (fullscreen . maximized) (display-type . color) (background-mode . dark) (cursor-color . "#93a1a1") (sticky) (environment) (frameset--id . "5CB1-F12A-0004-8566") (frameset--mini t . t) (height . 37) (width . 150) (modeline . t) (minibuffer . t) (unsplittable) (left . 0) (top . 27) (icon-name) (visibility . t) (display . ":0") (explicit-name)) ((min-height . 4) (min-width . 10) (min-height-ignore . 3) (min-width-ignore . 4) (min-height-safe . 1) (min-width-safe . 2) (min-pixel-height . 72) (min-pixel-width . 90) (min-pixel-height-ignore . 54) (min-pixel-width-ignore . 36) (min-pixel-height-safe . 18) (min-pixel-width-safe . 18)) leaf (pixel-width . 1366) (pixel-height . 654) (total-width . 151) (total-height . 36) (normal-height . 1.0) (normal-width . 1.0) (buffer "300.py" (selected . t) (hscroll . 0) (fringes 8 8 nil) (margins nil) (scroll-bars nil 0 t nil 0 t) (vscroll . 0) (dedicated) (point . 666) (start . 539))))])
+(setq comint-input-ring nil)
+(setq compile-history nil)
+(setq desktop-missing-file-warning nil)
+(setq dired-regexp-history nil)
+(setq extended-command-history nil)
+(setq face-name-history nil)
+(setq file-name-history '("/home/ashfaq/work/pc/topcoder/srm/144/div-1/" "~/work/pc/topcoder/srm/144/div-1/300.py" "/home/ashfaq/work/pc/topcoder/srm/" "/home/ashfaq/work/pc/topcoder/srm/144/div-1/300.py" "/home/ashfaq/work/pc/books/dawn_of_programming/ex2.4.py" "/home/ashfaq/work/pc/timus/1068.py" "/home/ashfaq/work/pc/algo/geometry.py" "/home/ashfaq/work/pc/algo/recursion.py" "/home/ashfaq/work/pc/algo/number-theory.py" "/home/ashfaq/work/pc/algo/" "~/work/pc/timus/1264.py" "~/work/pc/timus/1293.py" "~/work/pc/timus/1409.py" "~/work/pc/timus/test.cpp" "/home/ashfaq/work/pc/timus/test.cpp" "/home/ashfaq/work/pc/timus/1409.py" "/home/ashfaq/work/pc/timus/1293.py" "/home/ashfaq/work/pc/timus/1264.py" "/home/ashfaq/Documents/book-tex-format/art-of-learning/The Art of Learning.tex" "/home/ashfaq/work/pc/timus/1014.cpp" "/home/ashfaq/work/pc/timus/1014.py" "/home/ashfaq/work/pc/timus/test.py" "~/work/pc/timus/1014.py" "/home/ashfaq/work/pc/timus/judge_id" "/home/ashfaq/work/pc/timus/" "/home/ashfaq/work/pc/.gitignore" "~/.emacs.d/org-clock-save.el" "/home/ashfaq/work/pc/timus/1005.cpp" "/home/ashfaq/work/pc/timus/1005.cc" "/home/ashfaq/work/pc/timus/1005.input" "/home/ashfaq/work/pc/timus/1005.py" "/home/ashfaq/Documents/notes/diary.org" "/home/ashfaq/Documents/notes/art-of-learning.org" "/home/ashfaq/Documents/notes/diary-check.org" "/home/ashfaq/work/pc/algo/coinchange.py" "~/work/pc/uva/vol121/12108.py" "~/work/pc/uva/vol2/253.input" "~/work/pc/uva/vol2/253.py" "~/work/pc/hackerrank/30daychallenge/day18.py" "~/work/pc/hackerrank/30daychallenge/day19.py" "~/work/pc/hackerrank/30daychallenge/day20.py" "~/work/pc/hackerrank/30daychallenge/day22.input" "~/work/pc/hackerrank/30daychallenge/day22.py" "~/work/pc/uva/vol121/12108.py" "~/work/pc/uva/vol2/253.input" "~/work/pc/uva/vol2/253.py" "~/work/pc/hackerrank/30daychallenge/day18.py" "~/work/pc/hackerrank/30daychallenge/day19.py" "~/work/pc/hackerrank/30daychallenge/day20.py" "~/work/pc/hackerrank/30daychallenge/day22.input" "~/work/pc/hackerrank/30daychallenge/day22.py" "~/work/pc/uva/vol121/12108.py" "~/work/pc/uva/vol2/253.input" "~/work/pc/uva/vol2/253.py" "~/work/pc/hackerrank/30daychallenge/day18.py" "~/work/pc/hackerrank/30daychallenge/day19.py" "~/work/pc/hackerrank/30daychallenge/day20.py" "~/work/pc/hackerrank/30daychallenge/day22.input" "~/work/pc/hackerrank/30daychallenge/day22.py" "/home/ashfaq/work/pc/hackerrank/30daychallenge/day22.input" "/home/ashfaq/work/pc/hackerrank/30daychallenge/day22.py" "~/work/pc/uva/vol121/12108.py" "~/work/pc/uva/vol2/253.input" "~/work/pc/uva/vol2/253.py" "~/work/pc/hackerrank/30daychallenge/day18.py" "~/work/pc/hackerrank/30daychallenge/day19.py" "/home/ashfaq/work/pc/hackerrank/30daychallenge/day20.py" "/home/ashfaq/work/pc/hackerrank/30daychallenge/day19.py" "/home/ashfaq/work/pc/hackerrank/30daychallenge/day18.py" "~/work/pc/uva/vol121/12108.py" "~/work/pc/uva/vol2/253.input" "~/work/pc/uva/vol2/253.py" "/home/ashfaq/work/pc/uva/vol2/253.input" "/home/ashfaq/work/pc/uva/vol2/253.py" "~/work/pc/uva/vol121/12108.py" "~/.emacs.d/org-clock-save.el" "/home/ashfaq/work/pc/uva/vol121/data.in" "~/work/pc/uva/vol121/12108.py" "/home/ashfaq/work/pc/uva/vol121/" "~/Documents/notes/learning.org" "~/work/contest/hackerrank/30daychallenge/day10.py" "~/work/contest/hackerrank/30daychallenge/day11.py" "~/work/contest/hackerrank/30daychallenge/day12.py" "~/work/contest/hackerrank/30daychallenge/day13.py" "~/work/contest/hackerrank/30daychallenge/day14.py" "~/work/contest/hackerrank/30daychallenge/input" "~/work/contest/hackerrank/30daychallenge/day15.py" "~/work/contest/hackerrank/30daychallenge/day16.py" "~/work/contest/hackerrank/30daychallenge/day17.py" "~/work/contest/uva/vol121/12108.py" "~/.emacs.d/org-clock-save.el" "/home/ashfaq/work/contest/uva/vol121/12108.py" "~/Documents/notes/learning.org" "~/work/contest/hackerrank/30daychallenge/day10.py" "~/work/contest/hackerrank/30daychallenge/day11.py" "~/work/contest/hackerrank/30daychallenge/day12.py" "~/work/contest/hackerrank/30daychallenge/day13.py" "~/work/contest/hackerrank/30daychallenge/day14.py" "~/work/contest/hackerrank/30daychallenge/input" "~/work/contest/hackerrank/30daychallenge/day15.py"))
+(setq grep-find-history nil)
+(setq grep-history nil)
+(setq ido-buffer-history nil)
+(setq ido-last-directory-list nil)
+(setq ido-work-directory-list nil)
+(setq ido-work-file-list nil)
+(setq ivy-history '("1014.py" "1014.cpp" "test.cpp" "1014.cpp" "judge_id" "1014.py" "1005.py" "1005.input" "1005.py" "1005.input" "1005.py" "art-of-learning.org" "diary.org" "diary-check.org" "day22.py" "day22.input" "day22.py" "day22.input" "day22.py" "253.py" "12108.py" "data.in" "12108.py" "data.in" "12108.py" "day17.py" "day16.py" "day15.py" "input" "day13.py" "day12.py" "*Remember*" "diary.org" "notes" "decorators.py" "*Org Agenda(a)*" "todo.org" "*Org Note*" "*Calendar*" "*Org Note*" "words.org" "Notes" "1000.py" "contest.org" "learning.org" "lear" "todo.org" "init-local.el" "init-evil.el"))
+(setq minibuffer-history '("48" "46" "115" "133" "10" "$"))
+(setq org-tags-history '(":someday:after-gtd" "someday"))
+(setq query-replace-history '("NONE" "None" "initial" "inital" "each_face" "eachFace" "inital_color_string" "\\bcolors\\b" "initial_color_string" "colors" "rotate_mid_section_one_time" "rotate_mid_sectionOneTime" "rotate_mid_section" "rotateMidSection" "generate_full_faces" "generateFullFaces" "first_three_faces" "firstThreeFaces" "" "\\ $" "" "\\ $" "" "$" "" "$" "" "\\$" "" "$" "" ""))
+(setq read-expression-history nil)
+(setq regexp-history nil)
+(setq regexp-search-ring '("\\<):\\>" "how" "self.state" "sk" "irony" "footnote" "begin" "center" "player" "simul" "Losing to " "happened" "\\<I\\>" "that" "I" "\\<\n\\>"))
+(setq register-alist '((106) (48 . "#!/usr/bin/env python3\n\nclass BinaryCode:\n    def decode(self, message):\n        a = self.decode_with_setting_first_value(message, 0)\n        b = self.decode_with_setting_first_value(message, 1)\n        #print(a, b)\n        return (a, b)\n\n    def check_value_0_or_1(self, x):\n        if not (x == 0 or x == 1):\n            return False\n        return True\n\n    def decode_with_setting_first_value(self, message, first_value):\n        #q = list(map(int, message.split()))\n        q = list(map(int, list(message)))\n        # print(type(q))\n        # print(q)\n\n        decode_possible = True\n        p = [0] * len(q)\n        p[0] = first_value\n        p[1] = q[0] - p[0]\n        for i in range(2, len(q)-1):\n            # print(q[i], end=' ')\n            p[i] = q[i-1] - p[i-2] - p[i-1]\n            if self.check_value_0_or_1(p[i]) == False:\n                decode_possible = False\n                return \"None\"\n\n        p[-1] = q[-1] - p[-2]\n        if self.check_value_0_or_1(p[-1]) == False:\n            decode_possible = False\n            return \"None\"\n\n        #print('')\n        if decode_possible:\n            p = ''.join(map(str, p))\n            return p\n\n\n\ndef main():\n    b = BinaryCode()\n    print(b.decode('123210122'))\n\nif __name__ == '__main__':\n    main()\n")))
+(setq search-ring '("I almost" "self.state" "state" "sacha" "footnote" "happened" "docker" "evil"))
+(setq shell-command-history nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 208
+  "/home/ashfaq/work/pc/topcoder/srm/144/div-1/300.py"
+  "300.py"
+  'python-mode
+  '(visual-line-mode eldoc-mode undo-tree-mode immortal-scratch-mode auto-compile-on-load-mode projectile-mode whitespace-cleanup-mode guide-key-mode hes-mode whole-line-or-region-local-mode beacon-mode global-auto-revert-mode company-mode ivy-mode counsel-mode flycheck-mode anzu-mode goto-address-prog-mode paredit-everywhere-mode bug-reference-prog-mode diff-hl-mode symbol-overlay-mode rainbow-delimiters-mode anaconda-mode anaconda-eldoc-mode)
+  666
+  '(666 nil)
+  nil
+  nil
+  '((tab-width . 8) (indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (overwrite-mode) (truncate-lines))
+  '((mark-ring (1 1269 1269 1054))))
+
+(desktop-create-buffer 208
+  nil
+  "div-1"
+  'dired-mode
+  '(visual-line-mode immortal-scratch-mode auto-compile-on-load-mode projectile-mode whitespace-cleanup-mode guide-key-mode hes-mode whole-line-or-region-local-mode beacon-mode global-auto-revert-mode company-mode ivy-mode counsel-mode anzu-mode diredfl-mode diff-hl-dired-mode)
+  245
+  '(1 nil)
+  t
+  '("/home/ashfaq/work/pc/topcoder/srm/144/div-1/")
+  '((overwrite-mode) (truncate-lines))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "144"
+  'dired-mode
+  '(visual-line-mode immortal-scratch-mode auto-compile-on-load-mode projectile-mode whitespace-cleanup-mode guide-key-mode hes-mode whole-line-or-region-local-mode beacon-mode global-auto-revert-mode company-mode ivy-mode counsel-mode anzu-mode diredfl-mode diff-hl-dired-mode)
+  236
+  '(236 nil)
+  t
+  '("/home/ashfaq/work/pc/topcoder/srm/144/")
+  '((overwrite-mode) (truncate-lines))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  nil
+  "srm"
+  'dired-mode
+  '(visual-line-mode immortal-scratch-mode auto-compile-on-load-mode projectile-mode whitespace-cleanup-mode guide-key-mode hes-mode whole-line-or-region-local-mode beacon-mode global-auto-revert-mode company-mode ivy-mode counsel-mode anzu-mode diredfl-mode diff-hl-dired-mode)
+  232
+  '(232 nil)
+  t
+  '("/home/ashfaq/work/pc/topcoder/srm/")
+  '((overwrite-mode) (truncate-lines))
+  '((mark-ring nil)))
+
