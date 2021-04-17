@@ -3,7 +3,8 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
-/* Check the limit of forking processes */
+/* Variable updated in the child process is not reflected
+ * in the parent process */
 int main()
 {
     int i = 10;
