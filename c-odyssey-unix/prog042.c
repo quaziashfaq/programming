@@ -24,15 +24,16 @@ int main()
     int i;
 
     fp = fopen("book.txt", "w+");
-    for(i=0; i<10; i++)
+    for(i=0; i<1024; i++)
         fprintf(fp, "A");
-    for(i=0; i<10; i++)
+    for(i=0; i<1024; i++)
         fprintf(fp, "B");
-    for(i=0; i<10; i++)
+    for(i=0; i<1024; i++)
         fprintf(fp, "C");
-    for(i=0; i<10; i++)
+    for(i=0; i<1024; i++)
         fprintf(fp, "D");
-
+    for(i=0; i<1024; i++)
+        fprintf(fp, "E");
     fclose(fp);
 
     fp = fopen("book.txt", "r");
@@ -48,8 +49,9 @@ int main()
         buff[10] = '\0';
         printf("child reads: %s\n", buff);
         printf("In child: file pointer is %ld\n", ftell(fp));
+        printf("Child is sleeping...\n\n");
 
-        sleep(5);
+        sleep(10);
 
         printf("After parent is closed In child: file pointer is %ld\n", ftell(fp));
 
@@ -63,6 +65,7 @@ int main()
     else{
         // no wait for child to complete
         //
+        sleep(5);
         printf("In Parent file pointer is %ld\n", ftell(fp));
         printf("%ld\n", fread(buff, sizeof(buff) - 1 , 1, fp));
         buff[10] = '\0';

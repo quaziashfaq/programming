@@ -13,7 +13,7 @@ int main()
     int pid;
     char buff[11];
     fp = open("atestfile.txt", O_RDONLY, 0666);
-    pid = fork();
+o   pid = fork();
 
     if (pid == 0)  //child process goes first
     {

@@ -55,7 +55,35 @@ The child process gets a duplicate copy of all the variables declared in the par
 - Using files
 
 
-## File operations
+## File low-level operations
 
+```
 file_desriptor = open(<filename>, <open_method>, <permission>)
+bytes_written = write(file_desrciptor, pointer, count)
+bytes_read = read(file_descriptor, location_pointer_to_store_read_data, count)
 
+position_of_file_handle = lseek(file_descriptor, offset, from_where or whence)
+```
+- SEEK_SET 0 or starting location
+- SEEK_CUR 1 or current location
+- SEEK_END 2 or end location
+
+
+A file, unlike a variable, is never duplicated. File handle is shared between parent and childe processes.
+Each process has access to 2 tables.
+- File Descriptor Table --> This table holds the file descriptor of the file opened by teh parent process. Since this table is duplicated, all files open in the parent process when the function `fork()` is called, are also open in the child.
+- System File Table --> This table is used to control files. 
+  - In this table are stored the file pointer and access mode. 
+  - An entry of the opened file is made into this table. Another entry of the same file is made in the file descriptor table. Both these entryies are linked.
+  
+While each process has its own file descriptor table, thes system file table is global and not duplicated when a process is creaed. Thus, not only the file, but also the file pointer and its access mode, are shared.
+
+## Buffered File operations
+`File *fp;`
+`fopen(<filename>, "mode-to-open-the-file")`
+
+`fread(buffer, data_to_read_in_bytes, number_of_times, file_pointer)`
+total_bytes_read = number_of_times x data_to_read_in_bytes
+total_bytes_raed <= size(buffer) - 1 --> True
+
+`location_of_file_pointer_in_the_file = ftell(file_pointer);`
