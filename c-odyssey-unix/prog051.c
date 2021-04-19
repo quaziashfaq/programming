@@ -9,6 +9,7 @@ int main()
 {
     printf("after exec my pid is %d\n", getpid());
     printf("after exec my parent pid is %d\n", getppid());
+    printf()
 
     printf("exec ends\n");
     return 0;

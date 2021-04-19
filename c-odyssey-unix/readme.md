@@ -79,11 +79,37 @@ Each process has access to 2 tables.
 While each process has its own file descriptor table, thes system file table is global and not duplicated when a process is creaed. Thus, not only the file, but also the file pointer and its access mode, are shared.
 
 ## Buffered File operations
-`File *fp;`
-`fopen(<filename>, "mode-to-open-the-file")`
-
-`fread(buffer, data_to_read_in_bytes, number_of_times, file_pointer)`
+```c
+File *fp;
+fopen(<filename>, "mode-to-open-the-file")
+fread(buffer, data_to_read_in_bytes, number_of_times, file_pointer)
 total_bytes_read = number_of_times x data_to_read_in_bytes
 total_bytes_raed <= size(buffer) - 1 --> True
+location_of_file_pointer_in_the_file = ftell(file_pointer);
+fwrite's arguments are same as fread
+```
 
-`location_of_file_pointer_in_the_file = ftell(file_pointer);`
+
+
+A example code with shared file pointer between child and parent.
+
+```c
+fp = fread(<filename>, "r");
+if (fork() == 0){ //child
+  fread(10 characters); // will read
+  sleep(10);
+  fread(10 characters);
+}
+else{ // parent
+  sleep(5);
+  fread(10 characters)
+}
+```
+The fread operations are synchronized by using sleep function. It will go like below
+1. Parent is sleeping.
+2. Child reads 10 characters. Pointer is at position 10. But it has already read 4096 characters in the buffer.
+3. Child goes into sleep.
+4. Parent reads. But its pointer is standing at 4096. And it reads next 10 character.
+5. Child's file pointer is at 10. And it reads the next 10 character and its file pointer's position is at 20.
+
+If we flush after each read like `fflush(fp)` in child process, then buffer will be flushed. When parent reads, its file pointer will be at 10.

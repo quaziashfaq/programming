@@ -51,6 +51,7 @@ int main()
         printf("In child: file pointer is %ld\n", ftell(fp));
         printf("Child is sleeping...\n\n");
 
+        fflush(fp);
         sleep(10);
 
         printf("After parent is closed In child: file pointer is %ld\n", ftell(fp));
