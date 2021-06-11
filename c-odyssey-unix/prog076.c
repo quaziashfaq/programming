@@ -7,11 +7,11 @@
 
 /* Print environment variables */
 
-extern char **environ;
 
 int main(int argc, char *argv[], char *envp[])
 {
     int i;
+    extern char **environ;
 
     printf("Printing environ\n");
     for (i=0; environ[i]; i++)
@@ -21,5 +21,9 @@ int main(int argc, char *argv[], char *envp[])
     printf("Printing envp\n");
     for (i=0; envp[i]; i++)
         printf("%s\n", envp[i]);
+
+    printf("\n");
+    for (i=0; i<argc; i++)
+        printf("%s\n", argv[i]);
     return 0;
 }

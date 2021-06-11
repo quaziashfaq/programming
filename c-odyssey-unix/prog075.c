@@ -11,7 +11,7 @@
 int main(int argc, char *argv[])
 {
     int i;
-    char *env[5], *av[2];
+    char *env[5], *av[3];
 
     env[0] = "NAME=STEFF";
     env[1] = "COMPANY=PUMA";
@@ -19,8 +19,9 @@ int main(int argc, char *argv[])
     env[3] = "tel=011011011011";
     env[4] = (char *) 0;
 
-    av[0] = "ex2.out";
-    av[1] = (char *) 0;
+    av[0] = "Testing argc and argv";
+    av[1] = "Testing env also";
+    av[2] = (char *) 0;
 
     printf("Executing ex1.out");
     execve("./ex2.out", av, env);
