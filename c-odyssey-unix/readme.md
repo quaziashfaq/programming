@@ -113,3 +113,16 @@ The fread operations are synchronized by using sleep function. It will go like b
 5. Child's file pointer is at 10. And it reads the next 10 character and its file pointer's position is at 20.
 
 If we flush after each read like `fflush(fp)` in child process, then buffer will be flushed. When parent reads, its file pointer will be at 10.
+
+## exec () Function
+A process can execute another process using `exect()` function. By this, another process overwrites the parent process totally. However, this new process has --
+- Has the same PID as the original process
+- Has the same parent process PID
+- has the current directory
+- has the file descriptor tables - if any are open - also remain the same.
+
+```c
+execl(process_name, comma-separated-process-arguments, NULL pointer);
+execl("/usr/bin/ls", "-l", "-r", "/usr/", (char *)0 );
+(char *)0 reppresents a NULL pointer.
+```
