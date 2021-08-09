@@ -8,6 +8,6 @@ int main()
     printf("Process ID is %d\n", pid);
 
     long int i;
-    for (i=0; i<400000000; i++);
+    for (i=0; i<40000000000; i++);
     return 0;
 }
