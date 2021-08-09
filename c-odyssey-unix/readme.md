@@ -1,22 +1,36 @@
 # Unix programming
 
+Unix is a multitasking OS. It slices the CPU time and allocates time to all the running process. It switches between processes. Processes have unique IDs while running. These are called PID (process IDs). 
+When CPU switches the processes, it moves out the running process, it's associated variables, data and code out of CPU cache/registers to RAM/disk and brings in another process to run. Once its time is out, the old/new process is switched back to CPU.
+
+
 ## Process Id
 Every process has a PID.
-To get PID --> use getpid()
-To get parent process id --> getppid()
+`getpid()` To get PID 
+`getppid()` To get parent's PID
 
-- ps output of a running process shows as R.
-- ps output of a sleeping process shows as S.
+`ps` command output gives the PID, TTY (terimnal), TIME (how long it's running) and CMD (the process name)
+
+- `ps` output of a running process shows as R.
+- `ps` output of a sleeping process shows as S.
+
+## Old school explanation
+When we boot the system, a special process called teh `swapper` or `scheduler` is created with a PID of 0. The `swapper` manages memory allocation for process and influences CPU allocation. The `swapper` in turn creates three children: the `process dispatcher`, `vhand` and `bdflush` with ID numbers 1, 2, 3 respectively.
+
+This is done by executing the file init which exists in the `etc` sub-directory. The `process dispatecher` now gives birth to the shell. From now all process inititated by us are children are children of the `shell` and in turn descendents of the process `dispatcher`. This gives rise to a tree-like structure.
+
+UNIX keeps track of all process in an internal data structure called the `process table`. `ps -el` can give a listing the running process table.
 
 
 ## Fork
-unistd.h
-Use fork() command to create a child process.
+`unistd.h`
+Use `fork()` command to create a child process.
 Child process will have the exact copy of the parent process. The child process execution will start right after the invocation of fork command.
 
-- fork() return value is PID of the child process in the parent process.
-- fork() return value is 0 in the parent process.
-- fork() return value is -1 if fork fails.
+- `fork()` return value is PID of the child process in the parent process.
+- `fork()` return value is 0 in the parent process.
+- `fork()` return value is -1 if fork fails.
+[prog006.c](prog006.c)
 
 ### Orphan process
 If parent closes before the child, the child becomes **orphan**. So OS will assign the **init** process ID (generally 1) to be the parent the orpahned child process.
