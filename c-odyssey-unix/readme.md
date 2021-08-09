@@ -30,7 +30,8 @@ Child process will have the exact copy of the parent process. The child process 
 - `fork()` return value is PID of the child process in the parent process.
 - `fork()` return value is 0 in the parent process.
 - `fork()` return value is -1 if fork fails.
-[prog006.c](prog006.c)
+
+[prog006.c](./chap-01/prog006.c)
 
 ### Orphan process
 If parent closes before the child, the child becomes **orphan**. So OS will assign the **init** process ID (generally 1) to be the parent the orpahned child process.
