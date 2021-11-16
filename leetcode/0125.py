@@ -9,10 +9,15 @@ from typing import *
 class Solution:
     def isPalindrome(self, s: str) -> bool:
         '''
+        This function checks if a string is a palindrome
+        Time complexity: O(n)
+        '''
+
+        '''
         Lower case the characcters.
         Take only the alhanumeric characters
         '''
-        s = ''.join( [x.lower() for x in s if x.isalnum()] )
+        s = ''.join( [x.lower() for x in s if x.isalnum()] ) # O(n)
 
         low = 0
         high = len(s) - 1
@@ -21,6 +26,8 @@ class Solution:
         before I cross the midpoint (that means low is lower than high)
         then the string is not a palindrome.
         '''
+
+        # O(n)
         while low < high:
             if s[low] != s[high]:
                 return False

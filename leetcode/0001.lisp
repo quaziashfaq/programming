@@ -1,0 +1,28 @@
+#!/usr/bin/sbcl --script
+(load "~/quicklisp/setup.lisp")
+(ql:quickload "iterate")
+(use-package :iterate)
+
+
+(defun two-sum (elements target)
+  (format t "length: ~d ~%target: ~d~%" (list-length elements) target)
+  (let ((table (make-hash-table))
+        (diff 0)
+        (idx 0))
+    (format t "idx: ~d~%" idx)
+    (iter (for i in elements)
+      (setq idx (+ 1 idx))
+      (format t "~d ~d~%" idx i)
+      (setq diff (- target i))
+      (let ((number-position 0)
+            (found nil))
+        (setf (values number-position found) (gethash diff table))
+        (when (eq found T)
+          ;;(format t "Found: ~d ~d~%" number-position idx)
+          (return (values number-position idx)))
+        (setf (gethash i table) idx)))))
+
+(let ((p1 0)
+      (p2 0))
+  (setf (values p1 p2) (two-sum '(10 11 12 13) 21))
+  (format t "Found: ~d ~d~%" p1 p2))

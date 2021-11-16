@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
-
-# Site: Leetcode
-# Problem no:
-# Title: Two Sum
-
+#
 from typing import *
 
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         differences = {}
         '''
+        Take a number from the nums list.
         Then find the difference from target value.
         Then check if the difference is in dict.
-        Enter n.
+        If yes, we found the 2 values from the array whose sum equals to target.
+        Otherwise, keep the index of the value in the value-indexed dictionary.
         '''
         for i, n in enumerate(nums):
             diff = target - n
@@ -21,22 +19,11 @@ class Solution:
             differences[n] = i
 
 
-    def twoSum_On2(self, nums: List[int], target: int) -> List[int]:
-        i = 0
-        j = 0
-        while i < len(nums):
-            j = i + 1
-            while j < len(nums):
-                if nums[i] + nums[j] == target:
-                    return [i, j]
-                j = j + 1
-            i = i + 1
-
-
 def main():
     s = Solution()
-    assert s.twoSum([6, 5, 4, 3, 2, 1], 10) == [0, 2], "Wrong result"
-
+    assert s.twoSum([3, 2, 4], 6) == [1, 2]
+    assert s.twoSum([2, 7, 11, 15], 9) == [0, 1]
+    assert s.twoSum([7, 11, 15, 2], 9) == [0, 3]
 
 if __name__ == '__main__':
     main()

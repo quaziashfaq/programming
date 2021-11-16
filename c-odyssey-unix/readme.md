@@ -28,9 +28,14 @@ Use `fork()` command to create a child process.
 Child process will have the exact copy of the parent process. The child process execution will start right after the invocation of fork command.
 
 - `fork()` return value is PID of the child process in the parent process.
-- `fork()` return value is 0 in the parent process.
+- `fork()` return value is 0 in the child process.
 - `fork()` return value is -1 if fork fails.
 
+So child process can know about its parent process by the function `getppid()`.
+The parent process can know about iss child process by the function `fork()`.
+
+[prog006.c](./chap-01/prog006.c)
+[prog008.c](./chap-01/prog008.c)
 [prog006.c](./chap-01/prog006.c)
 
 ### Orphan process
@@ -42,7 +47,7 @@ ps output will show the state of child process as Z (Zombie) or defunct.
 
 ### Wait
 sys/wait.h
-The wait function call in the parent waits for its child to complete. If the child completes, it does the burial in the world meaning it removes the child process from the PROCESS TABLE.
+The `wait()` function call in the parent waits for its child to complete. If the child completes, it does the burial in the world meaning it removes the child process from the PROCESS TABLE.
 
 - wait(&status) returns the child's PID if there is a child.
 - wait(&status) returns the -1 if there is no child.
@@ -74,7 +79,7 @@ The child process gets a duplicate copy of all the variables declared in the par
 
 ```
 file_desriptor = open(<filename>, <open_method>, <permission>)
-bytes_written = write(file_desrciptor, pointer, count)
+bytes_written = write(file_desrciptor, pointer_to_array, count)
 bytes_read = read(file_descriptor, location_pointer_to_store_read_data, count)
 
 position_of_file_handle = lseek(file_descriptor, offset, from_where or whence)
@@ -86,8 +91,8 @@ position_of_file_handle = lseek(file_descriptor, offset, from_where or whence)
 
 A file, unlike a variable, is never duplicated. File handle is shared between parent and childe processes.
 Each process has access to 2 tables.
-- File Descriptor Table --> This table holds the file descriptor of the file opened by teh parent process. Since this table is duplicated, all files open in the parent process when the function `fork()` is called, are also open in the child.
-- System File Table --> This table is used to control files. 
+- **File Descriptor Table** --> This table holds the file descriptor of the file opened by teh parent process. Since this table is duplicated, all files open in the parent process when the function `fork()` is called, are also open in the child.
+- **System File Table** --> This table is used to control files. 
   - In this table are stored the file pointer and access mode. 
   - An entry of the opened file is made into this table. Another entry of the same file is made in the file descriptor table. Both these entryies are linked.
   
@@ -102,6 +107,8 @@ total_bytes_read = number_of_times x data_to_read_in_bytes
 total_bytes_raed <= size(buffer) - 1 --> True
 location_of_file_pointer_in_the_file = ftell(file_pointer);
 fwrite's arguments are same as fread
+
+fputc(int, FILE *stream)
 ```
 
 
@@ -136,8 +143,45 @@ A process can execute another process using `exect()` function. By this, another
 - has the current directory
 - has the file descriptor tables - if any are open - also remain the same.
 
+### `execl` function:
 ```c
-execl(process_name, comma-separated-process-arguments, NULL pointer);
+execl(process_name, comma_separated_process_arguments, NULL pointer);
 execl("/usr/bin/ls", "-l", "-r", "/usr/", (char *)0 );
 (char *)0 reppresents a NULL pointer.
 ```
+
+`process_name` is the name of the process, with relative path info or absolute path, to execute.
+`comma_separated_process_arguments`: We check how generally a main function is defined:
+`int main(int argc, char *argv[])`: The first argument `argv[0]` is always the name of the file which is executed.
+The first argument should be the name of the `comma_separated_process_arguments` should be the name of the file that is going to be executed.
+`NULL pointer`: To denote the end of function arguments. `(char *)0`
+
+`execl` is the base. The rest of the functions can be understood in the same manner.
+
+### `execv(file_tobe_executed, argument_array)`:
+- `file_tobe_executed` has to have relative path or absolute path info.
+- `argument_array` will be passed to the main function of the `file_tobe_executed`. 
+- The 1st argument of `argument_array` should be the name of the `file_tobe_executed`.
+- Its last argument must be null terminator defined as `(char *)0`.
+
+
+### `execvp(file_tobe_executed, argument_array)`:
+- `file_tobe_executed`: `execvp` does not require absolute path or relative path of the `file_tobe_executed` but rather will look for the process in the default paths. 
+`argument_array` will be passed to the main function of the `file_tobe_executed`. 
+- The 1st argument of `argument_array` should be the name of the `file_tobe_executed`.
+- Its last argument must be null terminator defined as `(char *)0`.
+
+
+
+## Environment block
+I didn't know that you can also pass the environment variables to the main function.
+`main(int argc, char *argv[], char *envp[]);`
+
+`envp[]` is array of pointers and by default it points all the variables that are defined in the environment.
+There is another way: `extern **environ;` is a pointer to the array of pointers which have point to the environment variables.
+
+During `fork()` a process, the child process has a copy of the variables defined in the parent porcess. Also, the variables in the environment block of the parent process are also duplicated. But after forking, changing of variable in either process does not affect the other. Because the now processes have duplicate copies of environment variables and they are separate.
+
+We can change the environment variables in the child (spawned) process by passing new environment variables. The function to be used is `execve()` 
+
+### `execve(file_tobe_executed, argument-array, new_environment_array)`

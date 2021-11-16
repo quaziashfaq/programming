@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
 {
     int i;
     int pid = fork();
-    if (pid == 0) {
-        printf("In child:\n");
+    if (pid == 0){
+        environ[1] = "COLORTERM=falsecolor";
         for (i = 0; environ[i]; i++)
             printf("%s\n", environ[i]);
     }
