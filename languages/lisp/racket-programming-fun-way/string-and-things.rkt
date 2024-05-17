@@ -97,9 +97,48 @@
 (check-equal? (string-append "imran" "+" "shoma") "imran+shoma")
 (check-eq? (string-ref "abcdef" 2) #\c)
 
-(define what-is-this (string-copy "I am mutable"))
-(string-set! what-is-this 5 #\a)
-(string-set! what-is-this 6 #\ )
-(check-equal? what-is-this "I am a table")
+(define what-am-i (string-copy "I am mutable"))
+(string-set! what-am-i 5 #\a)
+(string-set! what-am-i 6 #\ )
+(check-equal? what-am-i "I am a table")
+(set! what-am-i (string-append "Human, " what-am-i))
+
+(check-eq? (string-length what-am-i) 19)
+
 (define Xs (make-string 10 #\X))
 (check-equal? Xs "XXXXXXXXXX")
+
+(check-equal? (substring what-am-i 9 13) "am a")
+(check-equal? (string-titlecase what-am-i) "Human, I Am A Table")
+(check-equal? (string-upcase "ash") "ASH")
+(check-equal? (string-downcase "ASH") "ash")
+(check-true (string<=? "ASH" "ash"))
+(check-true (string=? "ash" "ash"))
+(check-false (string=? "ash" "ASH"))
+(check-equal? (string-replace what-am-i "table" "chair")
+              "Human, I am a chair")
+(check-true (string-contains? what-am-i "table"))
+(check-equal? (string-split what-am-i )
+             '("Human," "I" "am" "a" "table"))
+(check-equal? (string-split what-am-i ",")
+              '("Human" " I am a table"))
+(check-equal? (string-trim "  ash   ") "ash")
+(check-equal? (string-trim "  ash   " #:right? #f) "ash   ")
+(check-equal? (string-trim "  ash   " #:left? #f) "  ash")
+
+(check-equal? (symbol->string 'FBI) "FBI")
+(check-equal? (string->symbol "FBI") 'FBI)
+(check-equal? (list->string '(#\a #\s #\h)) "ash")
+(check-equal? (string->list "ash") '(#\a #\s #\h))
+(check-equal? (string->keyword "ash") '#:ash)
+(check-equal? (keyword->string '#:ash) "ash")
+
+(check-equal? (format "let ~a = ~a" "x" 2) "let x = 2")
+(check-equal? (number->string 10.5) "10.5")
+(check-equal? (string->number "10.001") 10.001)
+
+
+;; VECTOR
+(check-equal? (vector 1 2 "a" 'b 3) '#(1 2 "a" b 3))
+(check-equal? (vector 1 2 pi) '#(1 2 3.141592653589793))
+(check-equal? #(1 2 pi) '#(1 2 pi))
