@@ -17,3 +17,23 @@ class User:
     def reset_login_attempts(self):
         self.login_attempts = 0
 
+
+class Admin(User):
+    def __init__(self):
+        super().__init__("", "", 'admin')
+        self.privileges = [
+                'can add post',
+                'can delete post',
+                'can ban user',
+                ]
+
+    def show_privileges(self):
+        print(f'The admin has the below privileges:')
+        for priv in self.privileges:
+            print(priv)
+
+
+if __name__ == '__main__':
+    admin = Admin()
+    admin.describe_user()
+    admin.show_priveleges()
