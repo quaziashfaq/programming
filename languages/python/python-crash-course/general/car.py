@@ -27,7 +27,12 @@ class Car:
 
     def increment_odometer(self, miles):
         """Add the given miles to the current odomoter reading."""
-        self.odometer_reading += miles
+        try:
+            assert miles >= 0
+        except AssertionError:
+            print("You can't roll back an odometer!")
+        else:
+            self.odometer_reading += miles
 
     def fill_gas_tank(self):
         self.gas_tank_full = 100
@@ -52,7 +57,7 @@ if __name__ == "__main__":
     my_used_car.update_odometer(21_500)
     my_used_car.read_odometer()
 
-    my_used_car.increment_odometer(400)
+    my_used_car.increment_odometer(-400)
     my_used_car.read_odometer()
 
     my_used_car.update_odometer(21_500)

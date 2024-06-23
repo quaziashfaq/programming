@@ -37,10 +37,10 @@ class ElectricCar(Car):
         self.battery = Battery()
 
     def read_gas_tank_amount(self):
-        print(f'This is an electric car. There is no gas tank to fill up.')
+        print(f'This is an electric car. There is no gas tank!')
 
     def fill_gas_tank(self):
-        print(f'This is an electric car. There is no gas tank to fill up.')
+        print(f'This is an electric car. There is no gas tank to fill up!')
 
 
 

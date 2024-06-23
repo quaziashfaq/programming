@@ -18,9 +18,8 @@ class User:
         self.login_attempts = 0
 
 
-class Admin(User):
+class Privileges:
     def __init__(self):
-        super().__init__("", "", 'admin')
         self.privileges = [
                 'can add post',
                 'can delete post',
@@ -33,7 +32,12 @@ class Admin(User):
             print(priv)
 
 
+class Admin(User):
+    def __init__(self):
+        super().__init__("", "", 'admin')
+        self.privileges = Privileges()
+    
 if __name__ == '__main__':
     admin = Admin()
     admin.describe_user()
-    admin.show_priveleges()
+    admin.privileges.show_privileges()
