@@ -9,7 +9,7 @@ def test_city_country():
 
 def test_city_country_population():
     msg = get_formatted_city_country('dhaka', 'bangladesh', 180_000_000)
-    assert msg == 'Dhaka, Bangladesh - population {population}'
+    assert msg == f'Dhaka, Bangladesh - population 180000000'
 
 
     msg = get_formatted_city_country('dhaka', 'bangladesh', 0)
