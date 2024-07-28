@@ -53,10 +53,6 @@ class AlienInvasion:
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
-            #elif self.game_won == False:
-            #    print('You LOST!')
-            #elif self.game_won == True:
-            #    print('You WON!!!')
 
             self._update_screen()
             self.clock.tick(60)
@@ -73,15 +69,27 @@ class AlienInvasion:
     def _check_bullet_alien_collisions(self):
         '''Check collisios between bullet and aliens.'''
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
-        self.alien_destroyed_count += len(collisions)
-        if self.alien_destroyed_count == self.settings.alien_destroyed_target_count:
-            self.game_active = False
-            self.game_won = True
+        #self.alien_destroyed_count += len(collisions)
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
+            self.sb.check_high_score()
+            self.sb.prep_high_score()
+
+        #if self.alien_destroyed_count == self.settings.alien_destroyed_target_count:
+            #self.game_active = False
+            #self.game_won = True
         #print(type(collisions)):
         if not self.aliens:
+            # Create a new fleet and increase speed
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+
+            # Increase level.
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _check_events(self):
         '''Watch for keyboard and mouse events.'''
@@ -105,10 +113,12 @@ class AlienInvasion:
             # Hide the mouse cursor:
             pygame.mouse.set_visible(False)
             self._start_game()
+            self.sb.prep_level()
             
     def _start_game(self):
         # Reset the game stats
         self.stats.reset_stats()
+        #self.sb.prep_score()
         self.game_active = True
 
         # Get rid of any remaining bullets ad aliens
