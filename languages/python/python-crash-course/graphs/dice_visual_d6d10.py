@@ -4,12 +4,12 @@ from die import Die
 import plotly.express as px
 
 die_1 = Die()
-die_2 = Die()
+die_2 = Die(10)
 
 results = []
 
 # roll the dice and generate the results
-for roll_num in range(1000):
+for roll_num in range(50_000):
     result = die_1.roll() + die_2.roll()
     results.append(result)
 
@@ -22,10 +22,11 @@ for value in poss_results:
     frequencies.append(frequency)
 
 # Visualize the results
-title = 'Results of Rolling Two D6 Dice 1,000 times'
+title = 'Results of Rolling a D6 and a D10 50,000 times'
 labels = {'x': 'Result', 'y': 'Frequency of Result'}
 fig = px.bar(x=poss_results, y=frequencies, title=title, labels=labels)
 fig.update_layout(xaxis_dtick=1)
-fig.show()
+#fig.show()
+fig.write_html('dice_visual_d6d10.html')
 
 print(frequencies)

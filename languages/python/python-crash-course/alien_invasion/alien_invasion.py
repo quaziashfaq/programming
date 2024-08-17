@@ -116,6 +116,7 @@ class AlienInvasion:
             self.sb.prep_level()
             
     def _start_game(self):
+        '''Start the game.'''
         # Reset the game stats
         self.stats.reset_stats()
         #self.sb.prep_score()
