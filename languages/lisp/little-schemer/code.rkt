@@ -16,7 +16,8 @@
 
 (check-true (list? '((a list) is a list)))
 (check-eq? (length '((a list) is a list)) 4)
-; TODO: Write a length function. You need to define add1
+
+;; DONE: Write a length function. You need to define add1
 (check-false (atom? '()))
 (check-true (list? '()))
 (check-true (list? '(() () () ())))
@@ -48,50 +49,45 @@
 (check-true (atom? (car (cdr '(beef chicken rice fish)))))
 (check-true (list? (car (cdr '(beef (chicken hen) rice fish)))))
 
-; Equality Operator
+;; Equality Operator
 (check-true (eq? 'aynan 'aynan))
 (check-false (eq? 'aynan 'fatiha))
 
 ;; TODO: List Equality function. The following does not work
 ;; Primitive eq? works on atoms only.
-;;(check-true (eq? '(rice bread) '(rice bread)))
+;; (check-true (eq? '(rice bread) '(rice bread)))
 (check-true (eq? 4 4))
 (check-false (eq? 4 5))
 
 
 (define add1
-  (lambda x
-    (+ (car x) 1)))
+  (lambda (x)
+    (+ x 1)))
 
+
+
+
+;;--------------------------------------------------------
 ;; Chapter 2
+;;--------------------------------------------------------
 
-
-;; TODO: Write the function lat?
-;; lat? => List of atoms. List cannot have any other list
-;; (define (lat? alist)
-;;   (cond
-;;     ((null? alist))
-;;     (else #f)))
-
+;; Definition lat? function
+;; lat? means is it a list of (only) atoms.
 (define lat?
-  (lambda (alat)
+  (lambda (alat) ;; alat = a list of atoms
     (cond
       ((null? alat) #t)
       ((atom? (car alat)) (lat? (cdr alat)))
       (else #f))))
 
-;; (check-true (lat? '(a)))
-;; (check-true (lat? '()))
-;; (check-false (lat? '((a) b)))
-;; (list? '(a b c)) -> Is it a list? Yes.
-;; (list? '(a b c (d))) -> Is it a list? Yes, too.
-
 (check-true (lat? '()))
 (check-true (lat? '(a)))
 (check-true (lat? '(a b c)))
+(check-true (list? '(a b c)))
 
-;; (check-false (lat? 'a))
+;; '((a) b c)) is a list but not a list of atoms.
 (check-false (lat? '((a) b c)))
+(check-true (list? '((a) b c)))
 
 ;; 
 ;; Note:
@@ -100,10 +96,16 @@
 ;; (define ...) gives it a name
 
 
+(define length?
+  (lambda (alist)
+    (cond
+      ((null? alist) 0)
+      (else (add1 (length? (cdr alist)))))))
+      
 
-
-
-
+(check-equal? (add1 10) 11)
+(check-equal? (length? '(a b c d)) 4)
+(check-equal? (length? '(a (b c) d)) 3)
 
 
 
