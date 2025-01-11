@@ -1,31 +1,33 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
-//int main(int argc, char * argv[]) {
 
-// Pointer to an array
-//
-int main() 
+int a = 1982;
+int **z;
+int **y;
+int ***x;
+int ****v;
+int ****w;
+
+int **fun1(int *);
+int ****fun2(int ***);
+
+int main()
 {
-
-    int *arrayp[3];
-    int a = 10;
-    int b = 100;
-    int c = 1000;
-
-    arrayp[0] = &a;
-    arrayp[1] = &b;
-    arrayp[2] = &c;
-
-    int i;
-    for (i=0; i<3; i++){
-        cout << arrayp[i] << " " << *arrayp[i] << "\n";
-    }
-    cout << "\n";
-
+    z = fun1(&a);
+    cout << z << " "  << **z << '\n';
+//     cout << **y << '\n';
     return 0;
 }
 
-//-Wall -Weffc++ -Wextra -Wconversion -Wsign-conversion -Werror -ggdb -O0 
-//
+int **fun1(int *m)
+{
+    y = &m;
+    v = fun2(&y);
+    return **v;
+}
 
-
+int ****fun2(int ***n)
+{
+    w = &n;
+    return w;
+}
