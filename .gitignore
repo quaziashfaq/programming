@@ -176,8 +176,10 @@ venv.bak/
 *.la
 *.a
 *.lib
+*.dSYM
 
 # Executables
 *.exe
 *.out
 *.app
+cpp_run

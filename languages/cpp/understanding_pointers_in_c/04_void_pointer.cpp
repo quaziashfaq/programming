@@ -13,5 +13,10 @@ int main()
     int *b = NULL;
     cout << "NULL Pointer : " << b << '\n';
 
+    int c = 1000;
+    long int diff = &c - &a;
+    cout << diff << '\n';
+
+    &a = 10000;
     return 0;
 }
