@@ -177,23 +177,17 @@
 ;; equal?  => It checks if the 2 S-expressions are equal
 ;; So now redefinding the rember function here.
 
-(define rember
-  (lambda (s l)
-    (cond
-      ((null? l) '())
-      ((eq? s (car l)) (cdr l))
-      (else (cons (car l) (rember s (cdr l)))))))
-
+;; (define rember
+;;   (lambda (s l)
+;;     (cond
+;;       ((null? l) '())
+;;       ((eq? s (car l)) (cdr l))
+;;       (else (cons (car l) (rember s (cdr l)))))))
+;; 
 
 (begin
   (display "Hello Ash")
   (newline))
-
-(check-equal? '(Ashfaq Ur Rahman) (rember 'Quazi '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ur Rahman) (rember 'Ashfaq '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ashfaq Rahman) (rember 'Ur '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ashfaq Ur) (rember 'Rahman '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ashfaq Ur Rahman) (rember 'Shoma '(Quazi Ashfaq Ur Rahman)))
 
 
 ;; From the list of list of atoms/lists, get the first item of each of the list.
@@ -746,18 +740,18 @@
     (cond
       ((and (null? l1) (null? l2)) #t)
       ((or (null? l1) (null? l2) #f))
-      (else (and (equal? (car l1) (car l2))
+      (else (and (little-schemer-equal? (car l1) (car l2))
                  (eqlist? (cdr l1) (cdr l2)))))))
 
-(define equal?
+(define little-schemer-equal?
   (lambda (s1 s2)
     (cond
       ((and (atom? s1) (atom? s2)) (eqan? s1 s2))
       ((or  (atom? s1) (atom? s2)) #f)
       (else (eqlist? s1 s2)))))
 
-(check-true (equal? 'potato 'potato))
-(check-true (equal? '(potato) '(potato)))
+(check-true (little-schemer-equal? 'potato 'potato))
+(check-true (little-schemer-equal? '(potato) '(potato)))
 
 (check-true (eqlist? '(straberry ice cream)
                      '(straberry ice cream)))
@@ -771,7 +765,22 @@
 '(((tomato vorta sauce)) ((bean) vorta sauce) (and ((flying)) vorta (sauce)))))
 
 
+;; Redefining the rember function here
+(define rember
+  (lambda (s l)
+    (cond
+      ((null? l) '())
+      ((little-schemer-equal? s (car l)) (cdr l))
+      (else (cons (car l) (rember s (cdr l)))))))
 
+(check-equal? '(Ashfaq Ur Rahman) (rember 'Quazi '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ur Rahman) (rember 'Ashfaq '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ashfaq Rahman) (rember 'Ur '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ashfaq Ur) (rember 'Rahman '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ashfaq Ur Rahman) (rember 'Shoma '(Quazi Ashfaq Ur Rahman)))
+
+
+(check-equal? '(Ur Rahman) (rember '(Quazi Ashfaq) '((Quazi Ashfaq) Ur Rahman)))
 
 
 
