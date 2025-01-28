@@ -1,6 +1,10 @@
 #include<iostream>
 using namespace std;
 
+/*
+ * Returning pointer to local variables is wrong programming.
+ */
+
 int a = 1982;
 int **z;
 int **y;
@@ -20,6 +24,7 @@ int main()
 }
 
 int **fun1(int *m)
+// int **fun1(static int *m)
 {
     y = &m;
     v = fun2(&y);
@@ -27,6 +32,7 @@ int **fun1(int *m)
 }
 
 int ****fun2(int ***n)
+// int ****fun2(static int ***n)
 {
     w = &n;
     return w;
