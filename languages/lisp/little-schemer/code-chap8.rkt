@@ -280,49 +280,6 @@
 
 (check-equal? (first '(a b c)) 'a)
 
-;; Insert a new item after the first occurrence of an item (old) in the list
-(define insertR
-  (lambda (new old lat)
-    (cond
-      ((null? lat) '())
-      ((eq? (car lat) old) (cons old (cons new (cdr lat))))
-      (else (cons (car lat) (insertR new old (cdr lat)))))))
-
-(check-equal? (insertR 'topping 'fudge '(ice cream with fudge for dessert))
-              '(ice cream with fudge topping for dessert))
-
-
-;; Insert a new item before the first occurrence of an item (old) in the list
-(define insertL
-  (lambda (new old lat)
-    (cond
-      ((null? lat) '())
-      ((eq? (car lat) old) (cons new lat))
-      (else (cons (car lat) (insertL new old (cdr lat)))))))
-
-
-;;(insertL 'topping 'fudge '(ice cream with fudge for dessert))
-
-(check-equal? (insertL 'topping 'fudge '(ice cream with fudge for dessert))
-              '(ice cream with topping fudge for dessert))
-
-
-;; Substitute the old item with new item on the first occurrence of an old item in the list
-
-(define subst
-  (lambda (new old lat)
-    (cond
-      ((null? lat) '())
-      ((eq? (car lat) old) (cons new (cdr lat)))
-      (else (cons (car lat) (subst new old (cdr lat)))))))
-
-
-;;(insertL 'topping 'fudge '(ice cream with fudge for dessert))
-
-(check-equal? (subst 'topping 'fudge '(ice cream with fudge for dessert fudge))
-              '(ice cream with topping for dessert fudge))
-
-
 ;; Substitute the first occurrence of old1 or old2 item with the
 ;; new item in the list.
 (define subst2
@@ -332,7 +289,7 @@
       ((or (eq? (car lat) old1)
            (eq? (car lat) old2))
        (cons new (cdr lat)))
-      (else (cons (car lat) (subst new old1 old2 (cdr lat)))))))
+      (else (cons (car lat) (subst2 new old1 old2 (cdr lat)))))))
 
 
 ;;(insertL 'topping 'fudge '(ice cream with fudge for dessert))
@@ -776,24 +733,6 @@
 
 
 
-;; Redefining the rember function here
-(define rember
-  (lambda (s l)
-    (cond
-      ((null? l) '())
-      ((little-schemer-equal? s (car l)) (cdr l))
-      (else (cons (car l) (rember s (cdr l)))))))
-
-(check-equal? '(Ashfaq Ur Rahman) (rember 'Quazi '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ur Rahman) (rember 'Ashfaq '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ashfaq Rahman) (rember 'Ur '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ashfaq Ur) (rember 'Rahman '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ashfaq Ur Rahman) (rember 'mango '(Quazi Ashfaq Ur Rahman)))
-
-
-;;(check-equal? (multirember 5 '(5 mangoes 5 bananas 5 oranges)) '(mangoes bananas oranges)
-(check-equal? '(Ur Rahman) (rember '(Quazi Ashfaq) '((Quazi Ashfaq) Ur Rahman)))
-
 
 
 
@@ -862,18 +801,33 @@
   (lambda (aexp)
     (car aexp)))
 
+;; (define value
+;;   (lambda (nexp)
+;;     (cond
+;;       ((atom? nexp) nexp)
+;;       (else (cond
+;;               ((eq? (operator nexp) '^) (o^ (value (1st-sub-exp nexp)) (value (2nd-sub-exp nexp))))
+;;               ((eq? (operator nexp) '*) (o* (value (1st-sub-exp nexp)) (value (2nd-sub-exp nexp))))
+;;               ((eq? (operator nexp) '+) (o+ (value (1st-sub-exp nexp)) (value (2nd-sub-exp nexp)))))))))
+
+(define atom-to-function
+  (lambda (x)
+    (cond
+      ((eq? x (quote ^)) o^)
+      ((eq? x (quote *)) o*)
+      ((eq? x (quote +)) o+))))
+
 (define value
   (lambda (nexp)
     (cond
       ((atom? nexp) nexp)
-      (else (cond
-              ((eq? (operator nexp) '^) (o^ (value (1st-sub-exp nexp)) (value (2nd-sub-exp nexp))))
-              ((eq? (operator nexp) '*) (o* (value (1st-sub-exp nexp)) (value (2nd-sub-exp nexp))))
-              ((eq? (operator nexp) '+) (o+ (value (1st-sub-exp nexp)) (value (2nd-sub-exp nexp)))))))))
+      (else ((atom-to-function (operator nexp)) (value (1st-sub-exp nexp)) (value (2nd-sub-exp nexp)))))))
 
-(check-equal? 5 (value 5))
-(check-equal? 10 (value '(+ 5 5)))
-(check-equal? 10000 (value '(^ (* 5 2) (+ 3 1))))
+
+(check-equal? ((atom-to-function (operator '(* 10 11))) 5 6) 30)
+(check-equal? (value 5) 5)
+(check-equal? (value '(+ 5 5)) 10)
+(check-equal? (value '(^ (* 5 2) (+ 3 1))) 10000)
 
 
 
@@ -1163,18 +1117,6 @@
               '((banana cake) (pineapple turt) (mango bar) (apple pie)))
 
 
-(define seqL
-  (lambda (new old l)
-    (cons new (cons old l))))
-
-(check-equal? (seqL 'apple 'banana '(mango)) '(apple banana mango))
-
-(define seqR
-  (lambda (new old l)
-    (cons old (cons new l))))
-
-(check-equal? (seqR 'apple 'banana '(mango)) '(banana apple mango))
-
 (define insert-g
   (lambda (seq)
     (lambda (new old l)
@@ -1184,11 +1126,104 @@
         (else (cons (car l) ((insert-g seq) new old (cdr l))))))))
 
 
-(define insertL-g (insert-g seqL))
-(check-equal? (insertL-g '(apple pie) '(mango bar) '((banana cake) (pineapple turt) (mango bar)))
-              '((banana cake) (pineapple turt) (apple pie) (mango bar)))
 
 
-(define insertR-g (insert-g seqR))
-(check-equal? (insertR-g '(apple pie) '(mango bar) '((banana cake) (pineapple turt) (mango bar)))
+;; Insert a new item after the first occurrence of an item (old) in the list
+;; (define insertR
+;;   (lambda (new old lat)
+;;     (cond
+;;       ((null? lat) '())
+;;       ((eq? (car lat) old) (cons old (cons new (cdr lat))))
+;;       (else (cons (car lat) (insertR new old (cdr lat)))))))
+;; 
+
+(define seqR
+  (lambda (new old l)
+    (cons old (cons new l))))
+
+(check-equal? (seqR 'apple 'banana '(mango)) '(banana apple mango))
+
+(define insertR (insert-g seqR))
+(check-equal? (insertR '(apple pie) '(mango bar) '((banana cake) (pineapple turt) (mango bar)))
               '((banana cake) (pineapple turt) (mango bar) (apple pie)))
+(check-equal? (insertR 'topping 'fudge '(ice cream with fudge for dessert))
+              '(ice cream with fudge topping for dessert))
+
+
+;; Insert a new item before the first occurrence of an item (old) in the list
+;; (define insertL
+;;   (lambda (new old lat)
+;;     (cond
+;;       ((null? lat) '())
+;;       ((eq? (car lat) old) (cons new lat))
+;;       (else (cons (car lat) (insertL new old (cdr lat)))))))
+;; 
+
+;;(insertL 'topping 'fudge '(ice cream with fudge for dessert))
+
+(define seqL
+  (lambda (new old l)
+    (cons new (cons old l))))
+
+(check-equal? (seqL 'apple 'banana '(mango)) '(apple banana mango))
+
+;; (define insertL (insert-g seqL))
+
+(define insertL
+  (lambda (new old l)
+    ((insert-g seqL) new old l)))
+
+(check-equal? (insertL '(apple pie) '(mango bar) '((banana cake) (pineapple turt) (mango bar)))
+              '((banana cake) (pineapple turt) (apple pie) (mango bar)))
+(check-equal? (insertL 'topping 'fudge '(ice cream with fudge for dessert))
+              '(ice cream with topping fudge for dessert))
+
+
+;; Substitute the old item with new item on the first occurrence of an old item in the list
+
+
+;; (define subst
+;;   (lambda (new old lat)
+;;     (cond
+;;       ((null? lat) '())
+;;       ((eq? (car lat) old) (cons new (cdr lat)))
+;;       (else (cons (car lat) (subst new old (cdr lat)))))))
+;; 
+
+(define seqS
+  (lambda (new old l)
+    (cons new l)))
+
+(define subst (insert-g seqS))
+
+(check-equal? (subst 'topping 'fudge '(ice cream with fudge for dessert fudge))
+              '(ice cream with topping for dessert fudge))
+
+
+;; Redefining the rember function here
+;; (define rember
+;;   (lambda (s l)
+;;     (cond
+;;       ((null? l) '())
+;;       ((little-schemer-equal? s (car l)) (cdr l))
+;;       (else (cons (car l) (rember s (cdr l)))))))
+
+(define seqRem
+  (lambda (new old l)
+    l))
+
+(define rember
+  (lambda (a l)
+    ((insert-g seqRem) #f a l)))
+
+(check-equal? '(Ashfaq Ur Rahman) (rember 'Quazi '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ur Rahman) (rember 'Ashfaq '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ashfaq Rahman) (rember 'Ur '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ashfaq Ur) (rember 'Rahman '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ashfaq Ur Rahman) (rember 'mango '(Quazi Ashfaq Ur Rahman)))
+
+
+;;(check-equal? (multirember 5 '(5 mangoes 5 bananas 5 oranges)) '(mangoes bananas oranges)
+(check-equal? '(Ur Rahman) (rember '(Quazi Ashfaq) '((Quazi Ashfaq) Ur Rahman)))
+
+
