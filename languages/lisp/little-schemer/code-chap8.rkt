@@ -1227,3 +1227,65 @@
 (check-equal? '(Ur Rahman) (rember '(Quazi Ashfaq) '((Quazi Ashfaq) Ur Rahman)))
 
 
+(define a-friend
+  (lambda (x y)
+    (null? y)))
+
+;; (define new-friend
+;;   (lambda (newlat seen)
+;;     (col newlat (cons (car lat) seen))))
+;; 
+
+(define multirember&co
+  (lambda (a lat col)
+    (cond
+      ((null? lat) (col '() '()))
+      ((eq? (car lat) a)(multirember&co a (cdr lat)
+                                        (lambda (newlat seen)
+                                          (col newlat (cons (car lat) seen)))))
+      (else (multirember&co a (cdr lat)
+                       (lambda (newlat seen)
+                         (col (cons (car lat) newlat) seen)))))))
+
+
+(define last-friend
+  (lambda (x y)
+    (length x)))
+
+(check-true (a-friend 'bird '()))
+(check-true (multirember&co 'tuna '() a-friend))
+(check-false (multirember&co 'tuna '(tuna) a-friend))
+
+(check-false (multirember&co 'tuna '(and tuna) a-friend))
+(check-equal? (multirember&co 'tuna '(and tuna) last-friend) 1)
+(check-equal? (multirember&co 'tuna '(strawberries tuna and chicken) last-friend) 3)
+
+;; -> (multirember&co 'tuna '(tuna) (lambda (newlat seen) (a-friend (cons 'tuna newlat) seen)))
+;;   -> (multirember&co 'tuna '() (lambda (newlat seen)
+;;                                  (lambda (newlat seen)
+;;                                    (a-friend (cons 'tuna newlat) seen))))
+;; 
+;;   -> (multirember&co 'tuna '() (lambda ('() '())
+;;                                  (lambda ('() '())
+;;                                    (a-friend (cons 'tuna '()) '()))))
+;; 
+
+
+(define multiinsertLR
+  (lambda (newitem oldL oldR lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) oldL) (cons newitem (cons oldL (multiinsertLR newitem oldL oldR (cdr lat)))))
+      ((eq? (car lat) oldR) (cons oldR (cons newitem (multiinsertLR newitem oldL oldR (cdr lat)))))
+      (else (cons (car lat) (multiinsertLR newitem oldL oldR (cdr lat)))))))
+
+(check-equal? (multiinsertLR 'apple 'banana 'mango '(strawberry banana banana mango))
+              '(strawberry apple banana apple banana mango apple))
+
+(check-equal? (multiinsertLR 'apple 'banana 'banana '(strawberry banana banana mango))
+              '(strawberry apple banana apple banana mango))
+
+
+
+
+
