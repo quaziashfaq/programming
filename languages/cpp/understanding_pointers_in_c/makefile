@@ -7,7 +7,8 @@ RM=rm -f
 
 CPPFLAGS=-Wall -Weffc++ -Wextra -Wconversion -Wsign-conversion -Werror -pedantic-errors -ggdb -O0 -std=c++23
 
-SRCS=array-of-pointers.cpp
+# SRCS=array-of-pointers.cpp
+SRCS=07_pointer_to_array.cpp
 OBJS=$(subst .cpp .cc,.o,$(SRCS))
 
 all: cpp_executable 
