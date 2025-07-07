@@ -1,6 +1,9 @@
 #include<iostream>
 using namespace std;
 
+void change_value2(int *b);
+void change_value1(int *a);
+
 int main()
 {
     int a = 10;
@@ -17,6 +20,19 @@ int main()
     long int diff = &c - &a;
     cout << diff << '\n';
 
-    &a = 10000;
+//     &a = 10000;
+
+    change_value1(&a);
+    cout << a << '\n';
     return 0;
+}
+
+void change_value1(int *a)
+{
+    change_value2(a);
+}
+
+void change_value2(int *b)
+{
+    (*b)++;
 }

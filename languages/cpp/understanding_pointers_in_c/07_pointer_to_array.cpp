@@ -4,6 +4,12 @@ using namespace std;
 
 // Pointer to an array
 //
+
+void print_bar(int c=60){
+    for(int i = 0; i<c; i++) { cout << '-'; }
+    cout << '\n';
+}
+
 void display(int *b, int array_size)
 {
     cout << b << " : ";
@@ -43,7 +49,7 @@ int main() {
 
     int *b = &a[0][0];
 
-    cout << "\n--- x --- x ---\n";
+    print_bar();
     int i, j;
 //     for (i=0; i<5; i++){
 //         cout << a[i] << " ";
@@ -56,7 +62,7 @@ int main() {
             cout << *( *(a+i) + j) << " ";
         cout << "\n";
     }
-    cout << "\n--- x --- x ---\n";
+    print_bar();
     for (i=0; i<5; i++){
         cout << a[i] << " : ";
         for(j=0; j<2; j++)
@@ -66,7 +72,6 @@ int main() {
 
 
 
-    cout << "\n--- x --- x ---\n";
     int c[3] = {8, 27, 64};
     cout << c << " : \n";
     display(c, 3);
@@ -74,14 +79,14 @@ int main() {
 
     int *pa;
     pa = (int *)a;
-    cout << "\n--- x --- x ---\n";
+    print_bar();
     for (i=0; i<5; i++){
         cout << (pa + i*2) << " : ";
         for(j=0; j<2; j++)
             cout << *(pa + i*2+j) << " ";
         cout << "\n";
     }
-    cout << "\n--- x --- x ---\n";
+    print_bar();
     display((int *)a, 5*2);
 //     display(a, 5*2);
 
@@ -99,12 +104,11 @@ int main() {
         cout << "\n";
     }
 
-    cout << "heheheh\n--- x --- x ---\n";
+    print_bar();
     print(a, 5, 2);
 
     return 0;
 }
-
 
 
 //-Wall -Weffc++ -Wextra -Wconversion -Wsign-conversion -Werror -ggdb -O0 
