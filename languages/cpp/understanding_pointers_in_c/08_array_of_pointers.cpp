@@ -22,6 +22,12 @@ int main()
     }
     cout << "\n";
 
+
+    int *aa = &a;
+    cout << "*aa = " << *aa << '\n';
+    aa = aa + 1;
+    cout << "*aa = " << *aa << '\n';
+
     return 0;
 }
 

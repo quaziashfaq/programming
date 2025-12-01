@@ -19,6 +19,11 @@ int main() {
     cout << sizeof (NULL) << endl;
     cout << sizeof ("") << endl;
     cout << sizeof ("ash") << endl;
+
+    cout << "Size of Integer: " << sizeof(a[0]) << '\n';
+    cout << "size of array: " << sizeof(a) << '\n';
+
+    cout << "a[1]: " << *(a+1) << '\n';
     return 0;
 }
 

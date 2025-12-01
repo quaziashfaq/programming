@@ -92,7 +92,9 @@ int main() {
 
     cout << "\n";
 
-    int (*qa)[2];
+//     int (*qa)[2];
+    cout << "qa is defined as 'int *qa[2]'" << "\n";
+    int *qa[2];
     qa = a;
 //     int *qaa;
     for (i=0; i<5; i++){

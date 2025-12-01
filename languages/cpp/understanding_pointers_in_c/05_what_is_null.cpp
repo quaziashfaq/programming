@@ -11,6 +11,7 @@ int main()
     cout << "10 + NULL : " << 10 + int(NULL) << "\n";
     cout << "size of NULL : " << sizeof(NULL) << "\n";
     cout << "size of int: " << sizeof(10) << "\n";
+    cout << "size of long int: " << sizeof(long(10)) << "\n";
     cout << "size of a string : " << sizeof("a") << "\n";
     cout << "size of an empty string : " << sizeof("") << "\n";
 

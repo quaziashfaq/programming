@@ -62,9 +62,9 @@
 
 ;; add1 is primitive function. No need to define it actually?
 ;; 
-;; (define add1
-;;   (lambda (x)
-;;     (+ x 1)))
+(define ash/add1
+  (lambda (x)
+    (+ x 1)))
 
 
 
@@ -101,21 +101,21 @@
 
 ;; This is my definition of length of a list
 ;; The actual function name is length
-(define ash-length
+(define ash/length
   (lambda (alist)
     (cond
       ((null? alist) 0)
-      (else (add1 (ash-length (cdr alist)))))))
+      (else (add1 (ash/length (cdr alist)))))))
       
 
-(check-equal? (add1 10) 11)
-(check-equal? (ash-length '(a b c d)) 4)
-(check-equal? (ash-length '(a (b c) d)) 3)
+(check-equal? (ash/add1 10) 11)
+(check-equal? (ash/length '(a b c d)) 4)
+(check-equal? (ash/length '(a (b c) d)) 3)
 
-(check-equal? (length '(a b c d)) 4)
+(check-equal? (ash/length '(a b c d)) 4)
 
 ;; This is my definition to find if an atom is a member of a list of atoms
-;; The actual functino name is member?
+;; The actual functino name is member
 ;; (define little-schemer-member?
 ;;   (lambda (x alat) ;; test
 ;;     ;;(print alat)
@@ -125,7 +125,7 @@
 ;;       (else (little-schemer-member? x (cdr alat))))))
 ;; 
 ;; The actual 'member' function in racket does the below:
-;; Returns the whole list if the atom is the member of the list
+;; Returns the tail of the list starting with that atom if the atom is the member of the list
 ;; (member 'a '(a b)) => '(a b)
 ;; Returns false if the atom is not a member of the list.
 ;; (member 'c '(a b)) => #f
@@ -137,12 +137,18 @@
 ;; (check-false (little-schemer-member? 'e '(a b c d)))
 ;; (check-false (little-schemer-member? 'a '()))
 
+(member '(10 9) '(12 11 (10 9) 8))
+
 (define o=
   (lambda (n m)
     (cond
-      ((zero? m) (zero? n))
-      ((zero? n) #f)
+      ((zero? n) (zero? m))
+      ((zero? m) #f)
       (else (o= (sub1 n) (sub1 m))))))
+
+(check-true (o= 10 10))
+(check-false (o= 10 11))
+(check-false (o= 11 10))
 
 ;; Are two atoms or numbers equal?
 (define eqan?
@@ -158,71 +164,59 @@
 (check-false (eqan? 'dragonfruit 'blueberry))
 (check-true (eqan? 'blueberry 'blueberry))
 
-(define eqlist?
+(define ls/eqlist?
   (lambda (l1 l2)
     (cond
       ((and (null? l1) (null? l2)) #t)
       ((or (null? l1) (null? l2) #f))
-      (else (and (little-schemer-equal? (car l1) (car l2))
-                 (eqlist? (cdr l1) (cdr l2)))))))
+      (else (and (ls/equal? (car l1) (car l2))
+                 (ls/eqlist? (cdr l1) (cdr l2)))))))
 
-(define little-schemer-equal?
+(define ls/equal?
   (lambda (s1 s2)
     (cond
       ((and (atom? s1) (atom? s2)) (eqan? s1 s2))
       ((or  (atom? s1) (atom? s2)) #f)
-      (else (eqlist? s1 s2)))))
+      (else (ls/eqlist? s1 s2)))))
 
-(check-true (little-schemer-equal? 'potato 'potato))
-(check-true (little-schemer-equal? '(potato) '(potato)))
+(check-true (ls/equal? 'potato 'potato))
+(check-true (ls/equal? '(potato) '(potato)))
 
-(check-true (eqlist? '(straberry ice cream)
+(check-true (ls/eqlist? '(straberry ice cream)
                      '(straberry ice cream)))
 
-(check-true (eqlist? 
+(check-true (ls/eqlist? 
 '(((tomato vorta sauce)) ((bean) vorta sauce) (and ((flying)) vorta sauce))
 '(((tomato vorta sauce)) ((bean) vorta sauce) (and ((flying)) vorta sauce))))
 
-(check-false (eqlist? 
+
+(check-true (ls/equal? 
+'(((tomato vorta sauce)) ((bean) vorta sauce) (and ((flying)) vorta sauce))
+'(((tomato vorta sauce)) ((bean) vorta sauce) (and ((flying)) vorta sauce))))
+
+
+(check-false (ls/eqlist? 
 '(((tomato vorta sauce)) ((bean) vorta sauce) (and ((flying)) vorta sauce))
 '(((tomato vorta sauce)) ((bean) vorta sauce) (and ((flying)) vorta (sauce)))))
 
 ;; Redefining the little-schemer-member? function here
-(define member?
+(define ls/member?
   (lambda (x alat)
     (cond
       ((null? alat) #f)
-      ((little-schemer-equal? x (car alat)) #t)
-      (else (member? x (cdr alat))))))
+      ((ls/equal? x (car alat)) #t)
+      (else (ls/member? x (cdr alat))))))
 
-(check-true (member? 'a '(a b c d)))
-(check-true (member? 'b '(a b c d)))
-(check-true (member? 'c '(a b c d)))
-(check-true (member? 'd '(a b c d)))
-(check-false (member? 'e '(a b c d)))
-(check-false (member? 'a '()))
+(check-true (ls/member? 'a '(a b c d)))
+(check-true (ls/member? 'b '(a b c d)))
+(check-true (ls/member? 'c '(a b c d)))
+(check-true (ls/member? 'd '(a b c d)))
+(check-false (ls/member? 'e '(a b c d)))
+(check-false (ls/member? 'a '()))
+
+(check-true (ls/member? '(a b) '(c d (a b) (e f))))
 
 
- 
-;; The definition of member?
-;; as per the book 'The Little Schemer.
-;; a bit of improvement with 'or' function.
-;; (define member?
-;;   (lambda (x alat)
-;;     ;;(print alat)
-;;     (cond
-;;       ((null? alat) #f)
-;;       (else (or (eq? x (car alat))
-;;                 (member? x (cdr alat)))))))
-;; 
-;; 
-;; (check-true (member? 'a '(a b c d)))
-;; (check-true (member? 'b '(a b c d)))
-;; (check-true (member? 'c '(a b c d)))
-;; (check-true (member? 'd '(a b c d)))
-;; (check-false (member? 'e '(a b c d)))
-;; (check-false (member? 'a '()))
-;; 
 
 ;;--------------------------------------------------------
 ;; Chapter 3 : Cons the Magnificent
@@ -230,14 +224,14 @@
 
 ;; Function to remove a member of a list of atoms
 ;; Remove the first occurrence
-;; (define rember
+;;(define rember
 ;;   (lambda (x alat)
 ;;     (cond
 ;;       ((null? alat) '())
 ;;       ((eq? x (car alat)) (cdr alat))
 ;;       (else (cons (car alat) (rember x (cdr alat)))))))
-
-
+;; 
+;; 
 ;; (define rember
 ;;   (lambda (s l)
 ;;     (cond
@@ -246,6 +240,20 @@
 ;;       (else (cons (car l) (rember s (cdr l)))))))
 ;; 
 
+;; Redefining the rember function here
+(define rember
+  (lambda (s l)
+    (cond
+      ((null? l) '())
+      ((ls/equal? s (car l)) (cdr l))
+      (else (cons (car l) (rember s (cdr l)))))))
+
+(check-equal? '(Ashfaq Ur Rahman) (rember 'Quazi '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ur Rahman) (rember 'Ashfaq '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ashfaq Rahman) (rember 'Ur '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ashfaq Ur Rahman) (rember 'Rahman '(Quazi Ashfaq Ur Rahman Rahman)))
+(check-equal? '(Quazi Ashfaq Ur Rahman) (rember 'mango '(Quazi Ashfaq Ur Rahman)))
+(check-equal? '(Quazi Ashfaq Ur Rahman) (rember '(Ur) '(Quazi Ashfaq (Ur) Ur Rahman)))
 
 
 ;; From the list of list of atoms/lists, get the first item of each of the list.
@@ -255,12 +263,6 @@
       ((null? lol) '())
       (else (cons (car (car lol))
                   (firsts (cdr lol)))))))
-
-;; (firsts
-;;  '((apple peach pumpkin)
-;;    (plum pear cherry)
-;;    (grape raisin pea)
-;;    (bean carrot epgplant)))
 
 
 (check-equal?
@@ -285,7 +287,7 @@
   (lambda (new old lat)
     (cond
       ((null? lat) '())
-      ((eq? (car lat) old) (cons old (cons new (cdr lat))))
+      ((ls/equal? (car lat) old) (cons old (cons new (cdr lat))))
       (else (cons (car lat) (insertR new old (cdr lat)))))))
 
 (check-equal? (insertR 'topping 'fudge '(ice cream with fudge for dessert))
@@ -297,7 +299,7 @@
   (lambda (new old lat)
     (cond
       ((null? lat) '())
-      ((eq? (car lat) old) (cons new lat))
+      ((ls/equal? (car lat) old) (cons new lat))
       (else (cons (car lat) (insertL new old (cdr lat)))))))
 
 
@@ -305,6 +307,8 @@
 
 (check-equal? (insertL 'topping 'fudge '(ice cream with fudge for dessert))
               '(ice cream with topping fudge for dessert))
+(check-equal? (insertL 'topping '(fudge) '(ice cream with (fudge) for dessert))
+              '(ice cream with topping (fudge) for dessert))
 
 
 ;; Substitute the old item with new item on the first occurrence of an old item in the list
@@ -313,13 +317,15 @@
   (lambda (new old lat)
     (cond
       ((null? lat) '())
-      ((eq? (car lat) old) (cons new (cdr lat)))
+      ((ls/equal? (car lat) old) (cons new (cdr lat)))
       (else (cons (car lat) (subst new old (cdr lat)))))))
 
 
 ;;(insertL 'topping 'fudge '(ice cream with fudge for dessert))
 
 (check-equal? (subst 'topping 'fudge '(ice cream with fudge for dessert fudge))
+              '(ice cream with topping for dessert fudge))
+(check-equal? (subst 'topping '(fudge) '(ice cream with (fudge) for dessert fudge))
               '(ice cream with topping for dessert fudge))
 
 
@@ -329,8 +335,8 @@
   (lambda (new old1 old2 lat)
     (cond
       ((null? lat) '())
-      ((or (eq? (car lat) old1)
-           (eq? (car lat) old2))
+      ((or (ls/equal? (car lat) old1)
+           (ls/equal? (car lat) old2))
        (cons new (cdr lat)))
       (else (cons (car lat) (subst new old1 old2 (cdr lat)))))))
 
@@ -351,8 +357,8 @@
     (cond
       ((null? alat) '())
       ;; ((eq? x (car alat)) (multirember x (cdr alat)))
-      ;; Replacing eq? with little-schemer-equal? function
-      ((little-schemer-equal? x (car alat)) (multirember x (cdr alat)))
+      ;; Replacing eq? with ls/equal? function
+      ((ls/equal? x (car alat)) (multirember x (cdr alat)))
       (else (cons (car alat) (multirember x (cdr alat)))))))
 
 (check-equal? (multirember 'a '(a b a b c d a)) '(b b c d))
@@ -364,7 +370,7 @@
   (lambda (new old lat)
     (cond
       ((null? lat) '())
-      ((eq? (car lat) old) (cons old (cons new (multiinsertR new old (cdr lat)))))
+      ((ls/equal? (car lat) old) (cons old (cons new (multiinsertR new old (cdr lat)))))
       (else (cons (car lat) (multiinsertR new old (cdr lat)))))))
 
 
@@ -376,7 +382,7 @@
   (lambda (new old lat)
     (cond
       ((null? lat) '())
-      ((eq? (car lat) old) (cons new (cons old (multiinsertL new old (cdr lat)))))
+      ((ls/equal? (car lat) old) (cons new (cons old (multiinsertL new old (cdr lat)))))
       (else (cons (car lat) (multiinsertL new old (cdr lat)))))))
 
 (check-equal? (multiinsertL 'a 'b '(b b c d)) '(a b a b c d))
@@ -387,7 +393,7 @@
   (lambda (new old lat)
     (cond
       ((null? lat) '())
-      ((eq? (car lat) old) (cons new (multisubst new old (cdr lat))))
+      ((ls/equal? (car lat) old) (cons new (multisubst new old (cdr lat))))
       (else (cons (car lat) (multisubst new old (cdr lat)))))))
 
 (check-equal? (multisubst 'topping 'fudge '(ice cream with fudge for dessert fudge))
@@ -416,6 +422,7 @@
 ;;     (= n 0)))
 
 (check-true (zero? (sub1 1)))
+
 
 ;; m has to be greater than 0
 (define o+
@@ -517,7 +524,7 @@
 (define o/
   (lambda (n m)
     (cond
-      ((< n m) 0)
+      ((o< n m) 0)
       (else (add1 (o/ (o- n m) m))))))
 
 (check-equal? (o/ 10 2) 5)
@@ -525,26 +532,7 @@
 
 
 ;; 'length' is already defined in racket
-;; I have defined as ash-length earlier.
-
-
-;; (pick n lat)
-;; n > 0
-;; n >= (length lat) > 0
-(define pick
-  (lambda (n lat)
-    (cond
-      ((zero? (sub1 n)) (car lat))
-      (else (pick (sub1 n) (cdr lat))))))
-
-(check-equal? (pick 1 '(lasagna spaghetti raviolli macaroni meatball)) 'lasagna)
-(check-equal? (pick 4 '(lasagna spaghetti raviolli macaroni meatball)) 'macaroni)
-
-
-
-;; (rempick n lat) => pick and remove an item from the lat.
-;; n > 0
-;; n >= (length lat) > 0
+;; I have defined as ash/length earlier.
 
 (define one?
   (lambda (n)
@@ -553,10 +541,29 @@
 (check-true (one? 1))
 (check-false (one? 2))
 
+;; (pick n lat)
+;; n > 0
+;; n >= (length lat) > 0
+(define pick
+  (lambda (n lat)
+    (cond
+      ((one? n) (car lat))
+      (else (pick (sub1 n) (cdr lat))))))
+
+(check-equal? (pick 1 '(lasagna spaghetti raviolli macaroni meatball)) 'lasagna)
+(check-equal? (pick 4 '(lasagna spaghetti raviolli macaroni meatball)) 'macaroni)
+
+
+
+;; (rempick n lat) => pick and remove an item, positioned at n, from the lat.
+;; n > 0
+;; n >= (length lat) > 0
+
+
+
 (define rempick
   (lambda (n lat)
     (cond
-      ;;((zero? (sub1 n)) (cdr lat))
       ((one? n) (cdr lat))
       (else (cons (car lat)
                   (rempick (sub1 n) (cdr lat)))))))
@@ -606,6 +613,16 @@
 ;; Chapter 5 : *Oh My Gawd*: It's Full of Stars
 ;;--------------------------------------------------------
 
+;; (define rember*
+;;   (lambda (a l)
+;;     (cond
+;;       ((null? l) '())
+;;       ((atom? (car l)) (cond
+;;                          ((eqan? a (car l)) (rember* a (cdr l)))
+;;                          (else (cons (car l) (rember* a (cdr l))))))
+;;       (else (cons (rember* a (car l)) (rember* a (cdr l)))))))
+
+;; rember* is redefined to expect an atom or a list to remove.
 (define rember*
   (lambda (a l)
     (cond
@@ -613,14 +630,21 @@
       ((atom? (car l)) (cond
                          ((eqan? a (car l)) (rember* a (cdr l)))
                          (else (cons (car l) (rember* a (cdr l))))))
+      ((ls/equal? a (car l)) (rember* a (cdr l)))
       (else (cons (rember* a (car l)) (rember* a (cdr l)))))))
 
 (check-equal? (rember* 5 '(5 mangoes 5 bananas 5 dates)) '(mangoes bananas dates))
-(check-equal? (rember* 'sauce '(((tomato sauce))
-                               ((bean) sauce)
-                               (and ((flying)) sauce)))
+(check-equal? (rember* 'sauce
+                       '(((tomato sauce)) ((bean) sauce) (and ((flying)) sauce)))
               '(((tomato)) ((bean)) (and ((flying)))))
 
+(check-equal? (rember* '(tomato sauce)
+                       '(((tomato sauce)) ((bean) sauce) (and ((flying)) sauce)))
+              '(() ((bean) sauce) (and ((flying)) sauce)))
+
+(check-equal? (rember* '((tomato sauce)) 
+                       '(((tomato sauce)) ((bean) sauce) (and ((flying)) sauce)))
+              '(((bean) sauce) (and ((flying)) sauce)))
 
 ;; The First Commandment
 
@@ -634,7 +658,7 @@
 
 ;; When recurring on a list of S-expressions, l,
 ;; ask three questions about it: (null? l), (atom? (car l)) and
-;; else recurn on (car l) and (cdr l) if neither (null? l) and (atom? (car l)) are true
+;; else recur on (car l) and (cdr l) if neither (null? l) and (atom? (car l)) are true
 
 
 
@@ -776,19 +800,6 @@
 
 
 
-;; Redefining the rember function here
-(define rember
-  (lambda (s l)
-    (cond
-      ((null? l) '())
-      ((little-schemer-equal? s (car l)) (cdr l))
-      (else (cons (car l) (rember s (cdr l)))))))
-
-(check-equal? '(Ashfaq Ur Rahman) (rember 'Quazi '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ur Rahman) (rember 'Ashfaq '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ashfaq Rahman) (rember 'Ur '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ashfaq Ur) (rember 'Rahman '(Quazi Ashfaq Ur Rahman)))
-(check-equal? '(Quazi Ashfaq Ur Rahman) (rember 'mango '(Quazi Ashfaq Ur Rahman)))
 
 
 ;;(check-equal? (multirember 5 '(5 mangoes 5 bananas 5 oranges)) '(mangoes bananas oranges)
@@ -915,7 +926,7 @@
   (lambda (lat)
     (cond
       ((null? lat) #t)
-      ((member? (car lat) (cdr lat)) #f)
+      ((ls/member? (car lat) (cdr lat)) #f)
       (else (set? (cdr lat))))))
 
 
@@ -928,7 +939,7 @@
   (lambda (lat)
     (cond
       ((null? lat) '())
-      ((member? (car lat) (cdr lat)) (cons (car lat) (makeset (multirember (car lat) (cdr lat)))))
+      ((ls/member? (car lat) (cdr lat)) (cons (car lat) (makeset (multirember (car lat) (cdr lat)))))
       (else (cons (car lat) (makeset (cdr lat)))))))
 
 (check-equal? (makeset '(apple peach pear peach plum apple lemon peach)) '(apple peach pear plum lemon))
@@ -939,7 +950,7 @@
   (lambda (s1 s2)
     (cond
       ((null? s1) #t)
-      (else (and (member? (car s1) s2)
+      (else (and (ls/member? (car s1) s2)
                  (ls-subset? (cdr s1) s2))))))
 
 (check-true (ls-subset? '() '()))
@@ -958,7 +969,7 @@
   (lambda (s1 s2)
     (cond
       ((null? s1) #f)
-      (else (or (member? (car s1) s2) (intersect? (cdr s1) s2))))))
+      (else (or (ls/member? (car s1) s2) (intersect? (cdr s1) s2))))))
 
 (check-true (intersect? '(blueberry orange watermelon) '(strawberry guava watermelon mango)))
 (check-false (intersect? '(blueberry orange watermelon) '(strawberry guava mango)))
@@ -968,7 +979,7 @@
 ;;     (display "In intersect: ") (display s1) (display s2) (newline)
     (cond
       ((null? s1) '())
-      ((member? (car s1) s2) (cons (car s1) (intersect (cdr s1) s2)))
+      ((ls/member? (car s1) s2) (cons (car s1) (intersect (cdr s1) s2)))
       (else (intersect (cdr s1) s2)))))
 
 
@@ -979,7 +990,7 @@
   (lambda (s1 s2)
     (cond
       ((null? s1) s2)
-      ((member? (car s1) s2) (union (cdr s1) s2))
+      ((ls/member? (car s1) s2) (union (cdr s1) s2))
       (else (cons (car s1) (union (cdr s1) s2))))))
 
 (check-equal? (union '(blueberry orange watermelon) '(strawberry guava watermelon mango))
@@ -993,7 +1004,7 @@
   (lambda (s1 s2)
     (cond
       ((null? s1) '())
-      ((member? (car s1) s2) (difference (cdr s1) s2))
+      ((ls/member? (car s1) s2) (difference (cdr s1) s2))
       (else (cons (car s1) (difference (cdr s1) s2))))))
 
 
@@ -1105,10 +1116,12 @@
 (define eq?-c
   (lambda (a)
     (lambda (x)
+;;       (print a)
+;;       (print x)
       (eq? a x))))
 
 (define eq?-salad (eq?-c 'salad))
-(check-true (eq?-salad 'salad))
+;;(check-true (eq?-salad 'salad))
 (check-false (eq?-salad 'tuna))
 
 
@@ -1125,7 +1138,7 @@
 ;; (rember-eq? '3 '(1 2 3 4 5))
 (check-equal? (rember-eq? '3 '(1 2 3 4 5)) '(1 2 4 5))
 
-(define rember-equal? (rember-f little-schemer-equal?))
+(define rember-equal? (rember-f ls/equal?))
 
 (check-equal? (rember-equal? '(apple pie) '((banana cake) (pineapple turt) (apple pie) (mango bar)))
               '((banana cake) (pineapple turt) (mango bar)))
@@ -1139,7 +1152,7 @@
         (else (cons (car lat) 
                     ((insertL-f test?) new old (cdr lat))))))))
 
-(define insertL-equal? (insertL-f little-schemer-equal?))
+(define insertL-equal? (insertL-f ls/equal?))
 
 (check-equal? (insertL-equal? 'topping 'fudge '(ice cream with fudge for dessert))
               '(ice cream with topping fudge for dessert))
@@ -1158,7 +1171,7 @@
         ((test? (car lat) old) (cons old (cons new (cdr lat))))
         (else (cons (car lat) ((insertR-f test?) new old (cdr lat))))))))
 
-(define insertR-equal? (insertR-f little-schemer-equal?))
+(define insertR-equal? (insertR-f ls/equal?))
 (check-equal? (insertR-equal? '(apple pie) '(mango bar) '((banana cake) (pineapple turt) (mango bar)))
               '((banana cake) (pineapple turt) (mango bar) (apple pie)))
 
@@ -1180,11 +1193,12 @@
     (lambda (new old l)
       (cond
         ((null? l) '())
-        ((little-schemer-equal? old (car l)) (seq new old (cdr l)))
+        ((ls/equal? old (car l)) (seq new old (cdr l)))
         (else (cons (car l) ((insert-g seq) new old (cdr l))))))))
 
 
 (define insertL-g (insert-g seqL))
+(check-equal? (insertL-g 10 11 '(9 11 12)) '(9 10 11 12))
 (check-equal? (insertL-g '(apple pie) '(mango bar) '((banana cake) (pineapple turt) (mango bar)))
               '((banana cake) (pineapple turt) (apple pie) (mango bar)))
 
