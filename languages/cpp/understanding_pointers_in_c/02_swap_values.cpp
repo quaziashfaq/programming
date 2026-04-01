@@ -28,7 +28,7 @@ int main() {
     k = return_local_int_pointer();
 
 //     cout << "Returing a pointer-to-local-variable from another function: " << return_local_int_pointer << "\n";
-    cout << "Returing a pointer-to-local-variable from another function: " << k << " : " << *k << "\n";
+    cout << "Returning a pointer-to-local-variable from another function: " << k << " : " << *k << "\n";
      
     cout << "-- x -- x --\n";
     int *a;

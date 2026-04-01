@@ -45,56 +45,45 @@ int main() {
         {9, 10}
     };
 
-    display(&a[0][0], 10);
+//     display(&a[0][0], 10);
+//     print_bar();
 
-    int *b = &a[0][0];
+    
 
-    print_bar();
+
     int i, j;
-//     for (i=0; i<5; i++){
-//         cout << a[i] << " ";
-//     }
-//     cout << "\n";
-// 
     for (i=0; i<5; i++){
+        // printing address
         cout << a[i] << " : ";
         for(j=0; j<2; j++)
-            cout << *( *(a+i) + j) << " ";
+            // printing the value without [] notaiton
+            cout << *( *(a+i) + j) << " "; 
         cout << "\n";
     }
     print_bar();
+
+
+
+    int *b;
+    b = &a[0][0];
+//     b = (int *)a;  // it's same as above declaration
     for (i=0; i<5; i++){
         cout << a[i] << " : ";
         for(j=0; j<2; j++)
+            // the below address calucaltion is working because
+            // array adresses are contiguous in the memory.
             cout << *(b + i*2+j) << " ";
         cout << "\n";
     }
 
 
 
-    int c[3] = {8, 27, 64};
-    cout << c << " : \n";
-    display(c, 3);
-
-
-    int *pa;
-    pa = (int *)a;
-    print_bar();
-    for (i=0; i<5; i++){
-        cout << (pa + i*2) << " : ";
-        for(j=0; j<2; j++)
-            cout << *(pa + i*2+j) << " ";
-        cout << "\n";
-    }
-    print_bar();
-    display((int *)a, 5*2);
-//     display(a, 5*2);
-
-    cout << "\n";
-
-//     int (*qa)[2];
-    cout << "qa is defined as 'int *qa[2]'" << "\n";
-    int *qa[2];
+//  The below declaration means it's a single pointer that 
+//  points to an entire array of 2 integers.
+//  Memory Layout: A single pointer variable. When you increment it (qa + 1),
+//  it jumps by the size of the entire array (2 ints), not just one int.
+    int (*qa)[2];
+    cout << "qa is defined as 'int (*qa)[2]'" << "\n";
     qa = a;
 //     int *qaa;
     for (i=0; i<5; i++){
@@ -107,7 +96,21 @@ int main() {
     }
 
     print_bar();
-    print(a, 5, 2);
+//     print(a, 5, 2);
+
+//  This 'pa' is an array of 2 integer pointers.
+    int* pa[2];
+    int a1 = 100;
+    int b1[2] = {1000, 2000};
+    pa[0] = &a1; // holding the address value of one integer.
+    pa[1] = b1;  // holding the address value of an array.
+    cout << *(pa[0]) << endl;
+    cout << pa[1][0] << endl; 
+    cout << pa[1][1] << endl; 
+
+//     int* (*ra)[2];
+//     (*ra)[0] = &a1;
+//     (*ra)[1] = b1;
 
     return 0;
 }

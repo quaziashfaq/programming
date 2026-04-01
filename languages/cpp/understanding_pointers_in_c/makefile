@@ -14,9 +14,9 @@ CPPFLAGS=-Wall -Weffc++ -Wextra -Wconversion -Wsign-conversion -Werror -pedantic
 #SRCS=04_void_pointer.cpp
 #SRCS=05_what_is_null.cpp
 #SRCS=06_pointer_to_pointer.cpp
-#SRCS=07_pointer_to_array.cpp
+SRCS=07_pointer_to_array.cpp
 #SRCS=08_array_of_pointers.cpp
-SRCS=09_string.cc
+#SRCS=09_string.cc
 OBJS=$(subst .cpp .cc,.o,$(SRCS))
 #OBJS=$(subst .cpp,.o,$(SRCS))
 

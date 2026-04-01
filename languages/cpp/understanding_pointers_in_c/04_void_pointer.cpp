@@ -8,8 +8,13 @@ int main()
 {
     int a = 10;
     void *p1;
+
+    // void pointer take address of any type of pointer
     p1 = &a;
     cout << p1 << '\n';
+
+    // later you can typecast to the correct pointer type
+    // and then print the variable.
     cout << *(int*)p1 << '\n';
 
 
